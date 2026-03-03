@@ -60,6 +60,40 @@ paths:
         '404':
           description: Not found
 
+  /pets:
+    get:
+      operationId: getPets
+      tags:
+        - pets
+      summary: List pets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+    post:
+      operationId: createPet
+      tags:
+        - pets
+      summary: Save pet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+
 components:
   schemas:
     Item:
@@ -82,3 +116,62 @@ components:
         name:
           type: string
           example: "New Item"
+
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: type
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+
+    Cat:
+      type: object
+      required:
+        - type
+        - name
+      properties:
+        type:
+          type: string
+          example: "cat"
+          description: Always "cat" for a cat
+        name:
+          type: string
+          example: "Murzik"
+        whiskersLength:
+          type: number
+          format: float
+          description: Whisker length in cm
+          example: 5.2
+        indoor:
+          type: boolean
+          description: Indoor cat
+          example: true
+
+    Dog:
+      type: object
+      required:
+        - type
+        - name
+      properties:
+        type:
+          type: string
+          example: "dog"
+          description: Always "dog" for a dog
+        name:
+          type: string
+          example: "Sharik"
+        breed:
+          type: string
+          description: Breed
+          example: "Labrador"
+        barkVolume:
+          type: string
+          enum:
+            - quiet
+            - medium
+            - loud
+          description: Bark volume
+          example: "medium"

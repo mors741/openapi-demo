@@ -1,50 +1,67 @@
 # OpenAPI Demo
 
-Демо-проект: кодогенерация из OpenAPI (Java 17, Gradle, Spring Boot 3).
+Demo project: code generation from OpenAPI (Java 17, Gradle, Spring Boot 3).
 
-## Требования
+## Requirements
 
 - JDK 17+
-- (опционально) Gradle — для командной строки; IDEA использует встроенный Gradle.
+- (optional) Gradle — for command line; IDEA uses the built-in Gradle.
 
-Для сборки из командной строки с выбранным JDK: скопируйте `gradle.properties.example` в `gradle.properties` и укажите `org.gradle.java.home=/path/to/jdk`.
+To build from the command line with a specific JDK: copy `gradle.properties.example` to `gradle.properties` and set `org.gradle.java.home=/path/to/jdk`.
 
-## Структура
+## Structure
 
-- `api/openapi.yaml` — спецификация OpenAPI 3.0
-- Код генерируется в `build/generated/src/main/java` (пакеты `ru.yandex.demo.api`, `ru.yandex.demo.model`)
-- Реализация API: `src/main/java/ru/yandex/demo/web/ItemsApiController.java`
+- `api/openapi.yaml` — OpenAPI 3.0 specification
+- Generated code goes to `build/generated/src/main/java` (packages `ru.yandex.demo.api`, `ru.yandex.demo.model`)
+- API implementation: `src/main/java/ru/yandex/demo/web/ItemsApiController.java`
 
-## Сборка и запуск
+## Build and run
 
 ```bash
-# Генерация кода из OpenAPI (выполняется автоматически при compileJava)
+# Generate code from OpenAPI (runs automatically on compileJava)
 ./gradlew openApiGenerate
 
-# Сборка
+# Build
 ./gradlew build
 
-# Запуск приложения
+# Run the application
 ./gradlew bootRun
 ```
 
-Приложение поднимается на порту **8080**.
+The application runs on port **8080**.
 
-## Примеры запросов
+## Example requests
 
 ```bash
-# Список элементов
+# List items
 curl -s http://localhost:8080/items
 
-# Создать элемент
+# Create item
 curl -s -X POST http://localhost:8080/items -H "Content-Type: application/json" -d '{"name":"Test"}'
 
-# Получить по ID
+# Get by ID
 curl -s http://localhost:8080/items/1
 ```
 
-## Изменение API
+### Pets (Pet: Cat / Dog)
 
-1. Отредактируйте `api/openapi.yaml`.
-2. Запустите `./gradlew openApiGenerate`.
-3. Обновите реализацию в `ru.yandex.demo.web` под новые интерфейсы/модели.
+```bash
+# List pets
+curl -s http://localhost:8080/pets
+
+# Save a cat
+curl -s -X POST http://localhost:8080/pets \
+  -H "Content-Type: application/json" \
+  -d '{"type":"cat","name":"Murzik","whiskersLength":5.2,"indoor":true}'
+
+# Save a dog
+curl -s -X POST http://localhost:8080/pets \
+  -H "Content-Type: application/json" \
+  -d '{"type":"dog","name":"Sharik","breed":"Labrador","barkVolume":"medium"}'
+```
+
+## Changing the API
+
+1. Edit `api/openapi.yaml`.
+2. Run `./gradlew openApiGenerate`.
+3. Update the implementation in `ru.yandex.demo.web` to match the new interfaces/models.
