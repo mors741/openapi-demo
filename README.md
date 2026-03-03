@@ -138,6 +138,39 @@ curl -s -X POST http://localhost:8080/vehicles \
 }'
 ```
 
+### Fruits (Apple / Banana)
+
+Одна верхнеуровневая сущность `Fruit` с полем `type` и двумя опциональными полями `apple` и `banana` (без oneOf).
+
+```bash
+# List fruits
+curl -s http://localhost:8080/fruits
+
+# Create an apple
+curl -s -X POST http://localhost:8080/fruits \
+  -H "Content-Type: application/json" \
+  -d '{
+  "type": "apple",
+  "apple": {
+    "name": "Granny Smith",
+    "color": "green",
+    "weightGrams": 180
+  }
+}'
+
+# Create a banana
+curl -s -X POST http://localhost:8080/fruits \
+  -H "Content-Type: application/json" \
+  -d '{
+  "type": "banana",
+  "banana": {
+    "name": "Cavendish",
+    "lengthCm": 18.5,
+    "ripe": true
+  }
+}'
+```
+
 ## Changing the API
 
 1. Edit `api/openapi.yaml`.
