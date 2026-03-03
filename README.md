@@ -45,6 +45,8 @@ curl -s http://localhost:8080/items/1
 
 ### Pets (Cat / Dog)
 
+`type` лежит внутри сущностей.
+
 ```bash
 # List pets
 curl -s http://localhost:8080/pets
@@ -52,15 +54,27 @@ curl -s http://localhost:8080/pets
 # Save a cat
 curl -s -X POST http://localhost:8080/pets \
   -H "Content-Type: application/json" \
-  -d '{"type":"cat","name":"Murzik","whiskersLength":5.2,"indoor":true}'
+  -d '{
+  "type": "cat",
+  "name": "Murzik",
+  "whiskersLength": 5.2,
+  "indoor": true
+}'
 
 # Save a dog
 curl -s -X POST http://localhost:8080/pets \
   -H "Content-Type: application/json" \
-  -d '{"type":"dog","name":"Sharik","breed":"Labrador","barkVolume":"medium"}'
+  -d '{
+  "type": "dog",
+  "name": "Sharik",
+  "breed": "Labrador",
+  "barkVolume": "medium"
+}'
 ```
 
 ### Shapes (Circle / Square)
+
+`type` лежит снаружи сущностей. Сами сущности лежат в общем поле `data`.
 
 ```bash
 # List shapes
@@ -69,12 +83,26 @@ curl -s http://localhost:8080/shapes
 # Create a circle
 curl -s -X POST http://localhost:8080/shapes \
   -H "Content-Type: application/json" \
-  -d '{"type":"circle","data":{"shapeType":"circle","name":"Sun","radius":1.5}}'
+  -d '{
+  "type": "circle",
+  "data": {
+    "shapeType": "circle",
+    "name": "Sun",
+    "radius": 1.5
+  }
+}'
 
 # Create a square
 curl -s -X POST http://localhost:8080/shapes \
   -H "Content-Type: application/json" \
-  -d '{"type":"square","data":{"shapeType":"square","name":"Window","side":2.0}}'
+  -d '{
+  "type": "square",
+  "data": {
+    "shapeType": "square",
+    "name": "Window",
+    "side": 2.0
+  }
+}'
 ```
 
 ### Vehicles (Car / Bike)
@@ -88,12 +116,26 @@ curl -s http://localhost:8080/vehicles
 # Create a car
 curl -s -X POST http://localhost:8080/vehicles \
   -H "Content-Type: application/json" \
-  -d '{"type":"car","car":{"name":"Toyota Camry","brand":"Toyota","horsepower":181}}'
+  -d '{
+  "type": "car",
+  "car": {
+    "name": "Toyota Camry",
+    "brand": "Toyota",
+    "horsepower": 181
+  }
+}'
 
 # Create a bike
 curl -s -X POST http://localhost:8080/vehicles \
   -H "Content-Type: application/json" \
-  -d '{"type":"bike","bike":{"name":"Mountain Pro","gears":21,"electric":false}}'
+  -d '{
+  "type": "bike",
+  "bike": {
+    "name": "Mountain Pro",
+    "gears": 21,
+    "electric": false
+  }
+}'
 ```
 
 ## Changing the API
