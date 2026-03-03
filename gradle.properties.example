@@ -1,0 +1,4 @@
+# Скопируйте в gradle.properties и укажите путь к вашему JDK 17+
+# cp gradle.properties.example gradle.properties
+#
+# org.gradle.java.home=/path/to/your/jdk

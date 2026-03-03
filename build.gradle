@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.openapi.generator' version '7.2.0'
+}
+
+group = 'ru.yandex.demo'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'jakarta.annotation:jakarta.annotation-api'
+    implementation 'io.swagger.core.v3:swagger-annotations-jakarta:2.2.31'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+openApiGenerate {
+    generatorName = 'spring'
+    inputSpec = "${rootDir}/api/openapi.yaml"
+    outputDir = "${buildDir}/generated"
+    apiPackage = 'ru.yandex.demo.api'
+    modelPackage = 'ru.yandex.demo.model'
+    invokerPackage = 'ru.yandex.demo.invoker'
+    configOptions = [
+        useSpringBoot3       : 'true',
+        useBeanValidation    : 'true',
+        openApiNullable      : 'false',
+        interfaceOnly        : 'true',
+        skipDefaultInterface: 'true',
+        useTags              : 'true'
+    ]
+    globalProperties = [
+        modelDocs  : 'false',
+        apiDocs    : 'false'
+    ]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir}/generated/src/main/java"
+        }
+    }
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.named('openApiGenerate')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

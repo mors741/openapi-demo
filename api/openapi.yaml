@@ -1,0 +1,84 @@
+openapi: 3.0.3
+info:
+  title: OpenAPI Demo API
+  version: 1.0.0
+  description: Demo API for code generation
+
+paths:
+  /items:
+    get:
+      operationId: getItems
+      tags:
+        - items
+      summary: List items
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+    post:
+      operationId: createItem
+      tags:
+        - items
+      summary: Create item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /items/{id}:
+    get:
+      operationId: getItemById
+      tags:
+        - items
+      summary: Get item by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '404':
+          description: Not found
+
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          example: "1"
+        name:
+          type: string
+          example: "Demo Item"
+    ItemCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "New Item"
