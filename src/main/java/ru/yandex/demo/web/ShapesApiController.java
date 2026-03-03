@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ru.yandex.demo.api.ShapesApi;
 import ru.yandex.demo.model.Circle;
-import ru.yandex.demo.model.ShapeWrapper;
+import ru.yandex.demo.model.CircleWrapper;
+import ru.yandex.demo.model.Shape;
 import ru.yandex.demo.model.Square;
+import ru.yandex.demo.model.SquareWrapper;
 
 @RestController
 public class ShapesApiController implements ShapesApi {
@@ -19,41 +21,26 @@ public class ShapesApiController implements ShapesApi {
     private final List<Square> squares = new CopyOnWriteArrayList<>();
 
     @Override
-    public ResponseEntity<List<ShapeWrapper>> getShapes() {
-        List<ShapeWrapper> all = new ArrayList<>(circles.size() + squares.size());
+    public ResponseEntity<List<Shape>> getShapes() {
+        List<Shape> all = new ArrayList<>(circles.size() + squares.size());
         for (Circle c : circles) {
-            ShapeWrapper w = new ShapeWrapper();
-            w.setType(ShapeWrapper.TypeEnum.CIRCLE);
-            w.setData(c);
-            all.add(w);
+            all.add(new CircleWrapper("circle", c));
         }
         for (Square s : squares) {
-            ShapeWrapper w = new ShapeWrapper();
-            w.setType(ShapeWrapper.TypeEnum.SQUARE);
-            w.setData(s);
-            all.add(w);
+            all.add(new SquareWrapper("square", s));
         }
         return ResponseEntity.ok(all);
     }
 
     @Override
-    public ResponseEntity<ShapeWrapper> createShape(ShapeWrapper shapeWrapper) {
-        if (shapeWrapper.getType() == ShapeWrapper.TypeEnum.CIRCLE) {
-            Circle circle = (Circle) shapeWrapper.getData();
-            circles.add(circle);
-            ShapeWrapper response = new ShapeWrapper();
-            response.setType(ShapeWrapper.TypeEnum.CIRCLE);
-            response.setData(circle);
-            return ResponseEntity.status(201).body(response);
-        } else if (shapeWrapper.getType() == ShapeWrapper.TypeEnum.SQUARE) {
-            Square square = (Square) shapeWrapper.getData();
-            squares.add(square);
-            ShapeWrapper response = new ShapeWrapper();
-            response.setType(ShapeWrapper.TypeEnum.SQUARE);
-            response.setData(square);
-            return ResponseEntity.status(201).body(response);
+    public ResponseEntity<Shape> createShape(Shape shape) {
+        if (shape instanceof CircleWrapper cw) {
+            circles.add(cw.getData());
+        } else if (shape instanceof SquareWrapper sw) {
+            squares.add(sw.getData());
         } else {
-            throw new IllegalArgumentException("Unknown shape type: " + shapeWrapper.getType());
+            throw new IllegalArgumentException("Unknown shape type: " + (shape != null ? shape.getType() : "null"));
         }
+        return ResponseEntity.status(201).body(shape);
     }
 }

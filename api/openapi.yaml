@@ -108,7 +108,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ShapeWrapper'
+                  $ref: '#/components/schemas/Shape'
     post:
       operationId: createShape
       tags:
@@ -119,14 +119,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ShapeWrapper'
+              $ref: '#/components/schemas/Shape'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ShapeWrapper'
+                $ref: '#/components/schemas/Shape'
 
 components:
   schemas:
@@ -210,7 +210,21 @@ components:
           description: Bark volume
           example: "medium"
 
-    ShapeWrapper:
+    Shape:
+      type: object
+      required:
+        - type
+        - data
+      discriminator:
+        propertyName: type
+        mapping:
+          circle: '#/components/schemas/CircleWrapper'
+          square: '#/components/schemas/SquareWrapper'
+      oneOf:
+        - $ref: '#/components/schemas/CircleWrapper'
+        - $ref: '#/components/schemas/SquareWrapper'
+
+    CircleWrapper:
       type: object
       required:
         - type
@@ -218,15 +232,19 @@ components:
       properties:
         type:
           type: string
-          enum:
-            - circle
-            - square
-          description: Shape type
         data:
-          oneOf:
-            - $ref: '#/components/schemas/Circle'
-            - $ref: '#/components/schemas/Square'
-          description: Shape data (circle or square depending on type)
+          $ref: '#/components/schemas/Circle'
+
+    SquareWrapper:
+      type: object
+      required:
+        - type
+        - data
+      properties:
+        type:
+          type: string
+        data:
+          $ref: '#/components/schemas/Square'
 
     Circle:
       type: object
