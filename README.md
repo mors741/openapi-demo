@@ -48,12 +48,3 @@ curl -s http://localhost:8080/items/1
 1. Отредактируйте `api/openapi.yaml`.
 2. Запустите `./gradlew openApiGenerate`.
 3. Обновите реализацию в `ru.yandex.demo.web` под новые интерфейсы/модели.
-
-## Публикация на GitHub
-
-```bash
-# После создания пустого репозитория на GitHub:
-git remote add origin https://github.com/<ваш-логин>/openapi-demo.git
-git branch -M main
-git push -u origin main
-```
