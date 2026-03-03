@@ -43,7 +43,7 @@ curl -s -X POST http://localhost:8080/items -H "Content-Type: application/json" 
 curl -s http://localhost:8080/items/1
 ```
 
-### Pets (Pet: Cat / Dog)
+### Pets (Cat / Dog)
 
 ```bash
 # List pets
@@ -58,6 +58,23 @@ curl -s -X POST http://localhost:8080/pets \
 curl -s -X POST http://localhost:8080/pets \
   -H "Content-Type: application/json" \
   -d '{"type":"dog","name":"Sharik","breed":"Labrador","barkVolume":"medium"}'
+```
+
+### Shapes (Circle / Square)
+
+```bash
+# List shapes
+curl -s http://localhost:8080/shapes
+
+# Create a circle
+curl -s -X POST http://localhost:8080/shapes \
+  -H "Content-Type: application/json" \
+  -d '{"type":"circle","data":{"shapeType":"circle","name":"Sun","radius":1.5}}'
+
+# Create a square
+curl -s -X POST http://localhost:8080/shapes \
+  -H "Content-Type: application/json" \
+  -d '{"type":"square","data":{"shapeType":"square","name":"Window","side":2.0}}'
 ```
 
 ## Changing the API
