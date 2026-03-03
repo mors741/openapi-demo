@@ -11,6 +11,7 @@ import ru.yandex.demo.api.FruitsApi;
 import ru.yandex.demo.model.Apple;
 import ru.yandex.demo.model.Banana;
 import ru.yandex.demo.model.Fruit;
+import ru.yandex.demo.model.FruitType;
 
 @RestController
 public class FruitsApiController implements FruitsApi {
@@ -23,13 +24,13 @@ public class FruitsApiController implements FruitsApi {
         List<Fruit> all = new ArrayList<>(apples.size() + bananas.size());
         for (Apple a : apples) {
             Fruit f = new Fruit();
-            f.setType("apple");
+            f.setType(FruitType.APPLE);
             f.setApple(a);
             all.add(f);
         }
         for (Banana b : bananas) {
             Fruit f = new Fruit();
-            f.setType("banana");
+            f.setType(FruitType.BANANA);
             f.setBanana(b);
             all.add(f);
         }

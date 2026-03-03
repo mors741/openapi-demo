@@ -412,15 +412,20 @@ components:
           description: Electric bike
           example: false
 
+    FruitType:
+      type: string
+      enum:
+        - apple
+        - banana
+      description: Fruit kind
+
     Fruit:
       type: object
       required:
         - type
       properties:
         type:
-          type: string
-          example: "apple"
-          description: Fruit kind
+          $ref: '#/components/schemas/FruitType'
         apple:
           $ref: '#/components/schemas/Apple'
         banana:
