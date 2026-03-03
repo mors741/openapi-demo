@@ -94,6 +94,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
 
+  /shapes:
+    get:
+      operationId: getShapes
+      tags:
+        - shapes
+      summary: List shapes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShapeWrapper'
+    post:
+      operationId: createShape
+      tags:
+        - shapes
+      summary: Save shape
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShapeWrapper'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShapeWrapper'
+
 components:
   schemas:
     Item:
@@ -175,3 +209,49 @@ components:
             - loud
           description: Bark volume
           example: "medium"
+
+    ShapeWrapper:
+      type: object
+      required:
+        - type
+        - data
+      properties:
+        type:
+          type: string
+          enum:
+            - circle
+            - square
+          description: Shape type
+        data:
+          oneOf:
+            - $ref: '#/components/schemas/Circle'
+            - $ref: '#/components/schemas/Square'
+          description: Shape data (circle or square depending on type)
+
+    Circle:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "Sun"
+        radius:
+          type: number
+          format: float
+          description: Radius
+          example: 1.5
+
+    Square:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "Window"
+        side:
+          type: number
+          format: float
+          description: Side length
+          example: 2.0
