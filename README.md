@@ -77,6 +77,25 @@ curl -s -X POST http://localhost:8080/shapes \
   -d '{"type":"square","data":{"shapeType":"square","name":"Window","side":2.0}}'
 ```
 
+### Vehicles (Car / Bike)
+
+Вложенные сущности передаются в отдельных полях: `car` для машины, `bike` для велосипеда.
+
+```bash
+# List vehicles
+curl -s http://localhost:8080/vehicles
+
+# Create a car
+curl -s -X POST http://localhost:8080/vehicles \
+  -H "Content-Type: application/json" \
+  -d '{"type":"car","car":{"name":"Toyota Camry","brand":"Toyota","horsepower":181}}'
+
+# Create a bike
+curl -s -X POST http://localhost:8080/vehicles \
+  -H "Content-Type: application/json" \
+  -d '{"type":"bike","bike":{"name":"Mountain Pro","gears":21,"electric":false}}'
+```
+
 ## Changing the API
 
 1. Edit `api/openapi.yaml`.

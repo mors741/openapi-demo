@@ -128,6 +128,40 @@ paths:
               schema:
                 $ref: '#/components/schemas/Shape'
 
+  /vehicles:
+    get:
+      operationId: getVehicles
+      tags:
+        - vehicles
+      summary: List vehicles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vehicle'
+    post:
+      operationId: createVehicle
+      tags:
+        - vehicles
+      summary: Save vehicle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+
 components:
   schemas:
     Item:
@@ -273,3 +307,73 @@ components:
           format: float
           description: Side length
           example: 2.0
+
+    Vehicle:
+      type: object
+      required:
+        - type
+      discriminator:
+        propertyName: type
+        mapping:
+          car: '#/components/schemas/CarWrapper'
+          bike: '#/components/schemas/BikeWrapper'
+      oneOf:
+        - $ref: '#/components/schemas/CarWrapper'
+        - $ref: '#/components/schemas/BikeWrapper'
+
+    CarWrapper:
+      type: object
+      required:
+        - type
+        - car
+      properties:
+        type:
+          type: string
+          example: "car"
+        car:
+          $ref: '#/components/schemas/Car'
+
+    BikeWrapper:
+      type: object
+      required:
+        - type
+        - bike
+      properties:
+        type:
+          type: string
+          example: "bike"
+        bike:
+          $ref: '#/components/schemas/Bike'
+
+    Car:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "Toyota Camry"
+        brand:
+          type: string
+          example: "Toyota"
+        horsepower:
+          type: integer
+          description: Horsepower
+          example: 181
+
+    Bike:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: "Mountain Pro"
+        gears:
+          type: integer
+          description: Number of gears
+          example: 21
+        electric:
+          type: boolean
+          description: Electric bike
+          example: false
