@@ -1,10 +1,10 @@
 # OpenAPI Demo
 
-Demo project: code generation from OpenAPI (Java 17, Gradle, Spring Boot 3).
+Demo project: code generation from OpenAPI (Java 21, Gradle, Spring Boot 3).
 
 ## Requirements
 
-- JDK 17+
+- JDK 21+
 - (optional) Gradle — for command line; IDEA uses the built-in Gradle.
 
 To build from the command line with a specific JDK: copy `gradle.properties.example` to `gradle.properties` and set `org.gradle.java.home=/path/to/jdk`.
