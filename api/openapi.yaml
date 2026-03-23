@@ -4,6 +4,10 @@ info:
   version: 1.0.0
   description: Demo API for code generation
 
+servers:
+  - url: https://api.example.com
+    description: API server
+
 paths:
   /items:
     get:
@@ -228,6 +232,16 @@ components:
         mapping:
           cat: '#/components/schemas/Cat'
           dog: '#/components/schemas/Dog'
+      properties:
+        type:
+          $ref: '#/components/schemas/PetType'
+
+
+    PetType:
+      type: string
+      enum:
+        - cat
+        - dog
 
     Cat:
       type: object
@@ -236,9 +250,7 @@ components:
         - name
       properties:
         type:
-          type: string
-          example: "cat"
-          description: Always "cat" for a cat
+          $ref: '#/components/schemas/PetType'
         name:
           type: string
           example: "Murzik"
@@ -259,9 +271,7 @@ components:
         - name
       properties:
         type:
-          type: string
-          example: "dog"
-          description: Always "dog" for a dog
+          $ref: '#/components/schemas/PetType'
         name:
           type: string
           example: "Sharik"
