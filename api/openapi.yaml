@@ -293,14 +293,23 @@ components:
       required:
         - type
         - data
+      oneOf:
+        - $ref: '#/components/schemas/CircleWrapper'
+        - $ref: '#/components/schemas/SquareWrapper'
       discriminator:
         propertyName: type
         mapping:
           circle: '#/components/schemas/CircleWrapper'
           square: '#/components/schemas/SquareWrapper'
-      oneOf:
-        - $ref: '#/components/schemas/CircleWrapper'
-        - $ref: '#/components/schemas/SquareWrapper'
+      properties:
+        type:
+          $ref: '#/components/schemas/ShapeType'
+
+    ShapeType:
+      type: string
+      enum:
+        - circle
+        - square
 
     CircleWrapper:
       type: object
@@ -309,7 +318,7 @@ components:
         - data
       properties:
         type:
-          type: string
+          $ref: '#/components/schemas/ShapeType'
         data:
           $ref: '#/components/schemas/Circle'
 
@@ -320,7 +329,7 @@ components:
         - data
       properties:
         type:
-          type: string
+          $ref: '#/components/schemas/ShapeType'
         data:
           $ref: '#/components/schemas/Square'
 

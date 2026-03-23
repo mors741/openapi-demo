@@ -11,6 +11,7 @@ import ru.yandex.demo.api.ShapesApi;
 import ru.yandex.demo.model.Circle;
 import ru.yandex.demo.model.CircleWrapper;
 import ru.yandex.demo.model.Shape;
+import ru.yandex.demo.model.ShapeType;
 import ru.yandex.demo.model.Square;
 import ru.yandex.demo.model.SquareWrapper;
 
@@ -24,10 +25,10 @@ public class ShapesApiController implements ShapesApi {
     public ResponseEntity<List<Shape>> getShapes() {
         List<Shape> all = new ArrayList<>(circles.size() + squares.size());
         for (Circle c : circles) {
-            all.add(new CircleWrapper("circle", c));
+            all.add(new CircleWrapper(ShapeType.CIRCLE, c));
         }
         for (Square s : squares) {
-            all.add(new SquareWrapper("square", s));
+            all.add(new SquareWrapper(ShapeType.SQUARE, s));
         }
         return ResponseEntity.ok(all);
     }
