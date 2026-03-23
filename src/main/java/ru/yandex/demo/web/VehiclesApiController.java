@@ -13,6 +13,7 @@ import ru.yandex.demo.model.BikeWrapper;
 import ru.yandex.demo.model.Car;
 import ru.yandex.demo.model.CarWrapper;
 import ru.yandex.demo.model.Vehicle;
+import ru.yandex.demo.model.VehicleType;
 
 @RestController
 public class VehiclesApiController implements VehiclesApi {
@@ -24,10 +25,10 @@ public class VehiclesApiController implements VehiclesApi {
     public ResponseEntity<List<Vehicle>> getVehicles() {
         List<Vehicle> all = new ArrayList<>(cars.size() + bikes.size());
         for (Car c : cars) {
-            all.add(new CarWrapper("car", c));
+            all.add(new CarWrapper(VehicleType.CAR, c));
         }
         for (Bike b : bikes) {
-            all.add(new BikeWrapper("bike", b));
+            all.add(new BikeWrapper(VehicleType.BIKE, b));
         }
         return ResponseEntity.ok(all);
     }

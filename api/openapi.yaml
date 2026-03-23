@@ -365,14 +365,23 @@ components:
       type: object
       required:
         - type
+      oneOf:
+        - $ref: '#/components/schemas/CarWrapper'
+        - $ref: '#/components/schemas/BikeWrapper'
       discriminator:
         propertyName: type
         mapping:
           car: '#/components/schemas/CarWrapper'
           bike: '#/components/schemas/BikeWrapper'
-      oneOf:
-        - $ref: '#/components/schemas/CarWrapper'
-        - $ref: '#/components/schemas/BikeWrapper'
+      properties:
+        type:
+          $ref: '#/components/schemas/VehicleType'
+
+    VehicleType:
+      type: string
+      enum:
+        - car
+        - bike
 
     CarWrapper:
       type: object
@@ -381,8 +390,7 @@ components:
         - car
       properties:
         type:
-          type: string
-          example: "car"
+          $ref: '#/components/schemas/VehicleType'
         car:
           $ref: '#/components/schemas/Car'
 
@@ -393,8 +401,7 @@ components:
         - bike
       properties:
         type:
-          type: string
-          example: "bike"
+          $ref: '#/components/schemas/VehicleType'
         bike:
           $ref: '#/components/schemas/Bike'
 
